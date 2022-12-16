@@ -43,6 +43,7 @@ const Contact = () => {
                         placeholder="email"
                         className="bg-[#262624] rounded-sm py-1 px-2 mx-3 my-3 basis-full max-h-9"
                         onChange={(e) => setEmail(e.currentTarget.value)}
+                        value={email}
                         required
                     />
 
@@ -53,6 +54,7 @@ const Contact = () => {
                         placeholder="message"
                         className="bg-[#262624] rounded-sm py-1 px-2 my-3 mx-3 basis-full"
                         onChange={(e) => setMessage(e.currentTarget.value)}
+                        value={message}
                         required
                     />
 
