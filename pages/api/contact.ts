@@ -1,5 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import * as nodemailer from 'nodemailer'
+// import * as nodemailer from 'nodemailer';
+
+export const config = {
+    runtime: 'experimental-edge',
+}
+
 
 type Data = {
     message: string
@@ -14,20 +19,46 @@ export default function handler(
 ) {
     switch (req.method) {
         case 'POST':
-            // console.log(req)
-            const transporter = nodemailer.createTransport({
-                port: 465,
-                host: "smtp.gmail.com",
-                auth: {
-                    user: process.env.NODEMAILER_EMAIL,
-                    pass: process.env.NODEMAILER_PASSWORD,
-                },
-                secure: true,
-            });
-
             const { email, message } = req.body;
-            if (typeof email !== 'string' || typeof message !== 'string') return res.status(400).json({ message: 'Bad Data' });
-            if (emailRegex.test(email) === false) return res.status(400).json({ message: 'Please enter valid email' })
+
+            return new Request('https://api.mailchannels.net/tx/v1/send', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    personalizations: [
+                        {
+                            to: [{ email: process.env.TO_EMAIL, name: 'Test Randy' }],
+                        },
+                    ],
+                    from: {
+                        email: 'sendertime@carl@go.quick',
+                        name: 'Workers from the inside',
+                    },
+                    subject: `Message from ${email}`,
+                    content: [
+                        {
+                            type: 'text/plain',
+                            value: { message },
+                        },
+                    ],
+                }),
+            })
+            // console.log(req)
+            return new Response(JSON.stringify({ message: 'Bad Good Data' }), { status: 200 });
+            // const transporter = nodemailer.createTransport({
+            //     port: 465,
+            //     host: "smtp.gmail.com",
+            //     auth: {
+            //         user: process.env.NODEMAILER_EMAIL,
+            //         pass: process.env.NODEMAILER_PASSWORD,
+            //     },
+            //     secure: true,
+            // });
+
+            if (typeof email !== 'string' || typeof message !== 'string') return new Response(JSON.stringify({ message: 'Bad Data' }), { status: 400 });
+            if (emailRegex.test(email) === false) return new Response(JSON.stringify({ message: 'Please enter valid email' }), { status: 400 });
 
 
 
@@ -38,11 +69,11 @@ export default function handler(
                 text: message,
             };
 
-            transporter.sendMail(mailData, function (err, info) {
-                console.log(info)
-                if (err) return res.status(400).json({ message: err.message });
-                return res.status(200).json({ message: 'Message sent successfully' });
-            })
+            // transporter.sendMail(mailData, function (err, info) {
+            //     console.log(info)
+            //     if (err) return new Response(JSON.stringify({ message: err.message }), { status: 400 });
+            //     return new Response(JSON.stringify({ message: 'Message Sent Successfully' }), { status: 200 });
+            // })
 
             break;
     }
