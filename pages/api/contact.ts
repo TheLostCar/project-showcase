@@ -21,7 +21,7 @@ export default function handler(
         case 'POST':
             const { email, message } = req.body;
 
-            return new Request('https://api.mailchannels.net/tx/v1/send', {
+            const sent_mail = new Request('https://api.mailchannels.net/tx/v1/send', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
@@ -45,8 +45,9 @@ export default function handler(
                     ],
                 }),
             })
+            console.log(sent_mail);
             // console.log(req)
-            return new Response(JSON.stringify({ message: 'Bad Good Data' }), { status: 200 });
+            // return new Response(JSON.stringify({ message: 'Bad Good Data' }), { status: 200 });
             // const transporter = nodemailer.createTransport({
             //     port: 465,
             //     host: "smtp.gmail.com",
@@ -57,17 +58,17 @@ export default function handler(
             //     secure: true,
             // });
 
-            if (typeof email !== 'string' || typeof message !== 'string') return new Response(JSON.stringify({ message: 'Bad Data' }), { status: 400 });
-            if (emailRegex.test(email) === false) return new Response(JSON.stringify({ message: 'Please enter valid email' }), { status: 400 });
+            // if (typeof email !== 'string' || typeof message !== 'string') return new Response(JSON.stringify({ message: 'Bad Data' }), { status: 400 });
+            // if (emailRegex.test(email) === false) return new Response(JSON.stringify({ message: 'Please enter valid email' }), { status: 400 });
 
 
 
-            const mailData = {
-                from: process.env.NODEMAILER_EMAIL,
-                to: process.env.TO_EMAIL,
-                subject: `Message from ${email}`,
-                text: message,
-            };
+            // const mailData = {
+            //     from: process.env.NODEMAILER_EMAIL,
+            //     to: process.env.TO_EMAIL,
+            //     subject: `Message from ${email}`,
+            //     text: message,
+            // };
 
             // transporter.sendMail(mailData, function (err, info) {
             //     console.log(info)
