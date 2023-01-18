@@ -24,6 +24,18 @@ export default function Home() {
 
             <section className='flex justify-evenly flex-wrap basis-full'>
 
+                <ProjectContainer src='/donutShopLogo.png' alt='Donut Shop background Image' bgSrc='donutShop.mp4'>
+                    <div className='p-5 w-full h-full flex flex-col'>
+                        A mock landing page for donut company
+                        <br />
+                        Uses Next and Typescript
+                        <CustomAnchor liveHref='https://donut-shop-ca.vercel.app/' gitHubHref='https://github.com/TheLostCar/donut-shop'>
+                            Live Demo
+                        </CustomAnchor>
+                    </div>
+
+                </ProjectContainer>
+
                 <ProjectContainer src='/passenger.png' alt='Planeboarding background Image' bgSrc='planeBoarding.mp4'>
                     <div className='p-5 w-full h-full flex flex-col'>
                         A customizable simulation of 9 different plane boarding methods.
